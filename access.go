@@ -323,13 +323,6 @@ func (s *Server) handleRefreshTokenRequest(w *Response, r *http.Request) *Access
 		return nil
 	}
 
-	// client must be the same as the previous token
-	if ret.AccessData.Client.GetId() != ret.Client.GetId() {
-		s.setErrorAndLog(w, E_INVALID_CLIENT, errors.New("Client id must be the same from previous token"), "refresh_token=%s, current=%v, previous=%v", "client mismatch", ret.Client.GetId(), ret.AccessData.Client.GetId())
-		return nil
-
-	}
-
 	// set rest of data
 	ret.RedirectUri = ret.AccessData.RedirectUri
 	ret.UserData = ret.AccessData.UserData
