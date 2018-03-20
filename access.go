@@ -202,12 +202,6 @@ func (s *Server) handleAuthorizationCodeRequest(w *Response, r *http.Request) *A
 		return nil
 	}
 
-	// code must be from the client
-	if ret.AuthorizeData.Client.GetId() != ret.Client.GetId() {
-		s.setErrorAndLog(w, E_INVALID_GRANT, nil, "auth_code_request=%s", "client code does not match")
-		return nil
-	}
-
 	// check redirect uri
 	if ret.RedirectUri == "" {
 		ret.RedirectUri = FirstUri(ret.Client.GetRedirectUri(), s.Config.RedirectUriSeparator)
